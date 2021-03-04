@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".registro">
+
+    <ImageView
+        android:id="@+id/identificacion"
+        android:layout_width="339dp"
+        android:layout_height="213dp"
+        android:layout_gravity="center"
+        android:src="@drawable/cuentas" />
+
+    <EditText
+        android:id="@+id/TV_usu"
+        android:layout_width="353dp"
+        android:layout_height="52dp"
+        android:layout_gravity="center"
+        android:hint="Nombre del Solicitante"
+        android:inputType="number"
+
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/TV_usua"
+        android:layout_width="301dp"
+        android:layout_height="52dp"
+        android:layout_gravity="center"
+        android:hint="Usuario"
+        android:inputType="text"
+
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/TV_pas"
+        android:layout_width="302dp"
+        android:layout_height="52dp"
+        android:layout_gravity="center"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/TV_num"
+        android:layout_width="298dp"
+        android:layout_height="52dp"
+        android:layout_gravity="center"
+        android:hint="Telefono"
+        android:inputType="numberPassword"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/btn_registrar"
+        android:layout_width="216dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/boton_redondo4"
+        android:text="Registrar" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:text="" />
+
+
+</LinearLayout>

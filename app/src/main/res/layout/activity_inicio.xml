@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".inicio">
+    <ImageView
+        android:layout_width="420dp"
+        android:layout_height="250dp"
+        android:src="@drawable/cuentas"
+        android:layout_gravity="center"
+        />
+
+    <EditText
+        android:id="@+id/TV_usu"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="Usuario"
+        android:inputType="text"
+
+        android:textSize="40sp" />
+
+    <EditText
+        android:id="@+id/TV_pas"
+        android:layout_width="302dp"
+        android:layout_height="87dp"
+        android:layout_gravity="center"
+        android:hint="Contraseña"
+        android:inputType="numberPassword"
+        android:textSize="40sp" />
+
+    <Button
+        android:id="@+id/btn_registrar"
+        android:layout_width="177dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/boton_redondo4"
+        android:text="Entrar" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:text="" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nota: Si deseas REGISTRARSE acude a la estacion Cuauhtemoc con una identificacion oficial, solo personas con uso de silla de ruedas" />
+
+</LinearLayout>
