@@ -21,10 +21,6 @@ import android.widget.Toast;
 
 public class inicio extends AppCompatActivity {
 
-
-
-
-
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
@@ -48,7 +44,6 @@ public class inicio extends AppCompatActivity {
         postReq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 try {
 
                     postRequest();
