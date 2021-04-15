@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "627021030964",
+    "firebase_url": "https://metrobusmovilidad-default-rtdb.firebaseio.com",
+    "project_id": "metrobusmovilidad",
+    "storage_bucket": "metrobusmovilidad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627021030964:android:fe238f920343c37e9fcc61",
+        "android_client_info": {
+          "package_name": "Metro.movilidad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "627021030964-sa0rbuqqn1cou1p7jdrol3a2d6n13hmn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPoXxuUQegHtTB-EHqJv3QIZ5-ZZgSzCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "627021030964-sa0rbuqqn1cou1p7jdrol3a2d6n13hmn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627021030964:android:2ae031967fdcd4b39fcc61",
+        "android_client_info": {
+          "package_name": "com.example.metrobusmovilidad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "627021030964-sa0rbuqqn1cou1p7jdrol3a2d6n13hmn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPoXxuUQegHtTB-EHqJv3QIZ5-ZZgSzCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "627021030964-sa0rbuqqn1cou1p7jdrol3a2d6n13hmn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

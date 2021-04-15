@@ -1,18 +1,17 @@
 package com.example.metrobusmovilidad;
 
-import android.content.Intent;
-import android.net.Uri;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +30,8 @@ public class registro extends AppCompatActivity {
 
     //ImageView imagen;
     Button btnGuardar;
+    FirebaseAuth fAuth;
+    ProgressBar vLoadBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,13 +40,12 @@ public class registro extends AppCompatActivity {
 
         //imagen= (ImageView) findViewById(R.id.identificacion);
         btnGuardar=findViewById(R.id.btn_registrar);
-
+        fAuth = FirebaseAuth.getInstance();
+        vLoadBar = findViewById(R.id.loadBar);
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 try {
-
                     guardaUsuario();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -55,79 +55,97 @@ public class registro extends AppCompatActivity {
 
     }
 
+    @SuppressLint("WrongViewCast")
     public void guardaUsuario() throws IOException{
         final TextView email,nombre,pass,telefono;
         String usuario,nombreUser,password;
 
-        email=findViewById(R.id.TV_usua);
-        nombre=findViewById(R.id.TV_usu);
-        pass=findViewById(R.id.TV_pas);
-        telefono=findViewById(R.id.TV_num);
+        email = findViewById(R.id.TV_usua);
+        nombre = findViewById(R.id.TV_usu);
+        pass = findViewById(R.id.TV_pas);
+        telefono = findViewById(R.id.TV_num);
 
-        usuario=email.getText().toString();
-        nombreUser=nombre.getText().toString();
-        password=pass.getText().toString();
+        usuario = email.getText().toString();
+        nombreUser = nombre.getText().toString();
+        password = pass.getText().toString();
 
-
-        if (!usuario.equals("") && !nombreUser.equals("") && !password.equals("")) {
-
-            MediaType MEDIA_TYPE = MediaType.parse("application/json");
-            String url = "http://tslserver.ddns.net:5959/api/customer";
-
-            OkHttpClient client = new OkHttpClient();
-
-            JSONObject postdata = new JSONObject();
-            try {
-                postdata.put("email", usuario);
-                postdata.put("firstName", nombreUser);
-                postdata.put("lastName", "");
-                postdata.put("roles", "usuario");
-                postdata.put("password", password);
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            RequestBody body = RequestBody.create(MEDIA_TYPE, postdata.toString());
-
-            Request request = new Request.Builder()
-                    .url(url)
-                    .post(body)
-                    .header("Accept", "application/json")
-                    .header("Content-Type", "application/json")
-                    .build();
-
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    String mMessage = e.getMessage().toString();
-                    Log.w("failure Response", mMessage);
-                    //cuando falla el apoi
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-
-                    String mMessage = response.body().string();
-                    //Log.e(TAG, "AQUI--------->" + mMessage);
-
-
-                    registro.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(registro.this, "Se grabó el registro correctamente", Toast.LENGTH_LONG).show();
-                            email.setText("");
-                            nombre.setText("");
-                            pass.setText("");
-                            telefono.setText("");
-
-
-                        }
-                    });
-                }
-            });
-
+        if (TextUtils.isEmpty(usuario)){
+            email.setError("Email es requerido");
+            return;
         }
+        if (TextUtils.isEmpty(password)){
+            pass.setError("Contraseña es requerida");
+            return;
+        }
+        if (TextUtils.isEmpty(nombreUser)){
+            nombre.setError("Nombre es requerido");
+            return;
+        }
+        if (password.length() < 6){
+            pass.setError("La contraseña debe contener almenos 6 caracteres");
+            return;
+        }
+
+        vLoadBar.setVisibility(View.VISIBLE);
+
+        
+//        MediaType MEDIA_TYPE = MediaType.parse("application/json");
+//        String url = "http://tslserver.ddns.net:5959/api/customer";
+//
+//        OkHttpClient client = new OkHttpClient();
+//
+//        JSONObject postdata = new JSONObject();
+//        try {
+//            postdata.put("email", usuario);
+//            postdata.put("firstName", nombreUser);
+//            postdata.put("lastName", "");
+//            postdata.put("roles", "usuario");
+//            postdata.put("password", password);
+//        } catch (JSONException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//
+//        RequestBody body = RequestBody.create(MEDIA_TYPE, postdata.toString());
+//
+//        Request request = new Request.Builder()
+//                .url(url)
+//                .post(body)
+//                .header("Accept", "application/json")
+//                .header("Content-Type", "application/json")
+//                .build();
+//
+//        client.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                String mMessage = e.getMessage().toString();
+//                Log.w("failure Response", mMessage);
+//                //cuando falla el apoi
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//
+//                String mMessage = response.body().string();
+//                //Log.e(TAG, "AQUI--------->" + mMessage);
+//
+//
+//                registro.this.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(registro.this, "Se grabó el registro correctamente", Toast.LENGTH_LONG).show();
+//                        email.setText("");
+//                        nombre.setText("");
+//                        pass.setText("");
+//                        telefono.setText("");
+//
+//
+//                    }
+//                });
+//            }
+//        });
+
+
     }
 
 
