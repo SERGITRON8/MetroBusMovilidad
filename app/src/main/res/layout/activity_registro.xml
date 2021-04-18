@@ -14,7 +14,6 @@
         android:layout_width="339dp"
         android:layout_height="213dp"
         android:layout_gravity="center"
-        android:paddingTop="10"
         android:src="@drawable/cuentas"
         app:srcCompat="@drawable/logo" />
 

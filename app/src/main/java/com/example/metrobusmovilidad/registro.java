@@ -1,30 +1,24 @@
 package com.example.metrobusmovilidad;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class registro extends AppCompatActivity {
 
@@ -42,6 +36,10 @@ public class registro extends AppCompatActivity {
         btnGuardar=findViewById(R.id.btn_registrar);
         fAuth = FirebaseAuth.getInstance();
         vLoadBar = findViewById(R.id.loadBar);
+        if (fAuth.getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
+        }
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,7 +56,7 @@ public class registro extends AppCompatActivity {
     @SuppressLint("WrongViewCast")
     public void guardaUsuario() throws IOException{
         final TextView email,nombre,pass,telefono;
-        String usuario,nombreUser,password;
+        String usuario,nombreUser,password, phone;
 
         email = findViewById(R.id.TV_usua);
         nombre = findViewById(R.id.TV_usu);
@@ -68,6 +66,7 @@ public class registro extends AppCompatActivity {
         usuario = email.getText().toString();
         nombreUser = nombre.getText().toString();
         password = pass.getText().toString();
+        phone = telefono.getText().toString();
 
         if (TextUtils.isEmpty(usuario)){
             email.setError("Email es requerido");
@@ -85,10 +84,24 @@ public class registro extends AppCompatActivity {
             pass.setError("La contraseña debe contener almenos 6 caracteres");
             return;
         }
+        if (phone.length() != 10){
+            pass.setError("El telefono debe de tener 10 caracteres");
+            return;
+        }
 
         vLoadBar.setVisibility(View.VISIBLE);
 
-        
+        fAuth.createUserWithEmailAndPassword(usuario,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(registro.this , "Usuario creado", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                } else {
+                    Toast.makeText(registro.this , "Ocurrio un error!! - " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 //        MediaType MEDIA_TYPE = MediaType.parse("application/json");
 //        String url = "http://tslserver.ddns.net:5959/api/customer";
 //
