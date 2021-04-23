@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".inicio">
+
     <ImageView
         android:layout_width="420dp"
         android:layout_height="250dp"
-        android:src="@drawable/cuentas"
         android:layout_gravity="center"
-        />
+        android:src="@drawable/cuentas"
+        app:srcCompat="@drawable/logo" />
 
     <EditText
         android:id="@+id/TV_usu"
@@ -37,18 +38,24 @@
         android:layout_width="177dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/boton_redondo4"
-        android:text="Entrar" />
+        android:background="@drawable/boton_redondo2"
+        android:text="Entrar"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#CE000000"
+        android:textColorLink="#FFFFFF"
+        android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/textView9"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
-        android:text="" />
+        android:layout_height="wrap_content"
+        android:visibility="invisible" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nota: Si deseas REGISTRARSE acude a la estacion Cuauhtemoc con una identificacion oficial, solo personas con uso de silla de ruedas" />
+        android:text="NOTA: El REGISTRO se hace en estación Cuahutemoc con Identificación oficial. Solo personas con discapacidades motoras." />
 
 </LinearLayout>

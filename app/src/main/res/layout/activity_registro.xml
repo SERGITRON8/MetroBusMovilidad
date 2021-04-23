@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#45FFFFFF"
     android:orientation="vertical"
+    android:visibility="visible"
     tools:context=".registro">
 
     <ImageView
@@ -12,31 +14,45 @@
         android:layout_width="339dp"
         android:layout_height="213dp"
         android:layout_gravity="center"
-        android:src="@drawable/cuentas" />
+        android:layout_marginTop="10dp"
+        android:src="@drawable/cuentas"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="334dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Registro:"
+        android:textColor="#3F51B5"
+        android:textColorLink="#FFFFFF"
+        android:textSize="24sp" />
 
     <EditText
         android:id="@+id/TV_usu"
-        android:layout_width="353dp"
+        android:layout_width="294dp"
         android:layout_height="52dp"
         android:layout_gravity="center"
-        android:hint="Nombre del Solicitante"
-        android:inputType="number"
+        android:hint="Nombre"
 
+        android:inputType="textPersonName|textAutoComplete"
         android:textSize="30sp" />
 
     <EditText
         android:id="@+id/TV_usua"
-        android:layout_width="301dp"
+        android:layout_width="293dp"
         android:layout_height="52dp"
         android:layout_gravity="center"
-        android:hint="Usuario"
-        android:inputType="text"
+        android:hint="Correo"
+        android:inputType="textWebEmailAddress|text|textAutoComplete|textEmailAddress"
 
         android:textSize="30sp" />
 
     <EditText
         android:id="@+id/TV_pas"
-        android:layout_width="302dp"
+        android:layout_width="293dp"
         android:layout_height="52dp"
         android:layout_gravity="center"
         android:hint="Contraseña"
@@ -45,26 +61,64 @@
 
     <EditText
         android:id="@+id/TV_num"
-        android:layout_width="298dp"
+        android:layout_width="292dp"
         android:layout_height="52dp"
         android:layout_gravity="center"
         android:hint="Telefono"
-        android:inputType="numberPassword"
+        android:inputType="phone"
         android:textSize="30sp" />
+
+    <RadioGroup
+        android:id="@+id/userType"
+        android:layout_width="305dp"
+        android:layout_height="108dp"
+        android:layout_gravity="center"
+        android:checkedButton="@id/user"
+        android:gravity="center_horizontal|center_vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Selecciona el tipo de usuario:" />
+
+        <RadioButton
+            android:id="@+id/admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Admin" />
+
+        <RadioButton
+            android:id="@+id/user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Usuario" />
+    </RadioGroup>
 
     <Button
         android:id="@+id/btn_registrar"
         android:layout_width="216dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/boton_redondo4"
-        android:text="Registrar" />
+        android:background="@drawable/boton_redondo"
+        android:text="Registrar"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#CE000000"
+        android:textColorHint="#FFFFFF"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
+        android:layout_height="wrap_content"
         android:text="" />
+
+    <ProgressBar
+        android:id="@+id/loadBar"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:progressDrawable="@drawable/load"
+        android:visibility="invisible" />
 
 
 </LinearLayout>
