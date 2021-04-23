@@ -7,16 +7,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class menuagente extends AppCompatActivity {
 
-
-    Button btn1,btnSol;
+    private FirebaseAuth fAuth;
+    Button btn1,btnSol, btnLogout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuagente);
         btn1 = findViewById(R.id.btn_registro);
         btnSol= findViewById(R.id.btn_solicitantes);
+        btnLogout = findViewById(R.id.btnLogout);
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,5 +38,13 @@ public class menuagente extends AppCompatActivity {
             }
         });
 
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fAuth.getInstance().signOut();
+                Toast.makeText(menuagente.this , "Session Terminada.", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+        });
     }
 }

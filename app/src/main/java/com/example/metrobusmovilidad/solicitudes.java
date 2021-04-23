@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,10 +42,11 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class solicitudes extends AppCompatActivity {
-
-    private List<String> listaSolicitudes;
+    private ListView lSolicitudes;
+    private ArrayList<String> alSolicitudes;
     private List<modeloSolicitudes> listaModeloSolicitudes;
     private modeloSolicitudes itemSelected;
+    private DatabaseReference solicitudesReference = FirebaseDatabase.getInstance().getReference().child("Requests");
     static final String SCAN = "com.google.zxing.client.android.SCAN";
     Button btnRefresh;
 
@@ -47,6 +55,30 @@ public class solicitudes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solicitudes);
+
+        lSolicitudes = findViewById(R.id.lvSolicitudes);
+
+        alSolicitudes = new ArrayList<>();
+        ArrayAdapter adapter= new ArrayAdapter<String>(this, R.layout.list_item, alSolicitudes);
+        lSolicitudes.setAdapter(adapter);
+
+        solicitudesReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                alSolicitudes.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Model_solicitud schema = snapshot.getValue(Model_solicitud.class);
+                    String request = "USUARIO "+ schema.getUser_name() +"/n Direccion a " + schema.getDestination() + "/n Abordo en " +schema.getOrigin() + "/n Contacto emergencia: " +schema.getUser_phone();
+                    alSolicitudes.add(request);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 //        muestraSolicitudes();
 
 //        btnRefresh=findViewById(R.id.btn_actualizar);

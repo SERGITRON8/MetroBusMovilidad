@@ -12,7 +12,19 @@
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="128dp"
+        android:layout_marginTop="10dp"
         app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/userStatus"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:gravity="center"
+        android:text="Viajando"
+        android:textColor="#4CAF50"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/textView13"
@@ -50,7 +62,6 @@
         android:layout_width="261dp"
         android:layout_height="49dp"
         android:visibility="gone"
-        android:background="@drawable/boton_redondo2"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="114dp" />
 
@@ -67,15 +78,9 @@
         android:layout_width="263dp"
         android:layout_height="49dp"
         android:visibility="gone"
-        android:background="@drawable/boton_redondo2"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="114dp" />
 
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/textView8"
@@ -96,7 +101,6 @@
         android:layout_width="268dp"
         android:layout_height="49dp"
         android:visibility="gone"
-        android:background="@drawable/boton_redondo2"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="114dp" />
 
@@ -113,7 +117,6 @@
         android:layout_width="266dp"
         android:layout_height="49dp"
         android:visibility="gone"
-        android:background="@drawable/boton_redondo2"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="114dp" />
 
@@ -130,6 +133,26 @@
         android:layout_height="wrap_content"
         android:background="@drawable/boton_redondo"
         android:text="SOLICITA APOYO"
+        android:textColor="#FFFFFF"
+        android:textIsSelectable="false"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cuando un usuario se encuentra viajando no puede solicitar mas apoyo."
+        android:textColor="#515151"
+        android:textColorHint="#FFFFFF"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="150dp"
+        android:layout_height="38dp"
+        android:layout_gravity="right"
+        android:background="@drawable/boton_redondo4"
+        android:text="logout"
         android:textColor="#FFFFFF"
         android:textIsSelectable="false"
         android:textStyle="bold" />

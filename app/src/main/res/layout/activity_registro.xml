@@ -14,8 +14,21 @@
         android:layout_width="339dp"
         android:layout_height="213dp"
         android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:src="@drawable/cuentas"
         app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="334dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Registro:"
+        android:textColor="#3F51B5"
+        android:textColorLink="#FFFFFF"
+        android:textSize="24sp" />
 
     <EditText
         android:id="@+id/TV_usu"
@@ -23,8 +36,8 @@
         android:layout_height="52dp"
         android:layout_gravity="center"
         android:hint="Nombre"
-        android:inputType="number"
 
+        android:inputType="textPersonName|textAutoComplete"
         android:textSize="30sp" />
 
     <EditText
@@ -33,7 +46,7 @@
         android:layout_height="52dp"
         android:layout_gravity="center"
         android:hint="Correo"
-        android:inputType="text"
+        android:inputType="textWebEmailAddress|text|textAutoComplete|textEmailAddress"
 
         android:textSize="30sp" />
 
@@ -52,8 +65,34 @@
         android:layout_height="52dp"
         android:layout_gravity="center"
         android:hint="Telefono"
-        android:inputType="numberPassword"
+        android:inputType="phone"
         android:textSize="30sp" />
+
+    <RadioGroup
+        android:id="@+id/userType"
+        android:layout_width="305dp"
+        android:layout_height="108dp"
+        android:layout_gravity="center"
+        android:checkedButton="@id/user"
+        android:gravity="center_horizontal|center_vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Selecciona el tipo de usuario:" />
+
+        <RadioButton
+            android:id="@+id/admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Admin" />
+
+        <RadioButton
+            android:id="@+id/user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Usuario" />
+    </RadioGroup>
 
     <Button
         android:id="@+id/btn_registrar"

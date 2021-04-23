@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,14 +19,21 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class registro extends AppCompatActivity {
 
+    private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private DatabaseReference root = db.getReference().child("Users");
+    private FirebaseAuth fAuth;
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
     //ImageView imagen;
     Button btnGuardar;
-    FirebaseAuth fAuth;
     ProgressBar vLoadBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +45,10 @@ public class registro extends AppCompatActivity {
         btnGuardar=findViewById(R.id.btn_registrar);
         fAuth = FirebaseAuth.getInstance();
         vLoadBar = findViewById(R.id.loadBar);
-        if (fAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            finish();
-        }
+//        if (fAuth.getCurrentUser() != null){
+//            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+//            finish();
+//        }
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,7 +65,16 @@ public class registro extends AppCompatActivity {
     @SuppressLint("WrongViewCast")
     public void guardaUsuario() throws IOException{
         final TextView email,nombre,pass,telefono;
-        String usuario,nombreUser,password, phone;
+        String usuario;
+        String nombreUser;
+        String password;
+        String phone;
+        String userType;
+        final String[] userId = new String[1];
+        radioGroup = findViewById(R.id.userType);
+
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+        radioButton = (RadioButton) findViewById(selectedId);
 
         email = findViewById(R.id.TV_usua);
         nombre = findViewById(R.id.TV_usu);
@@ -67,9 +85,14 @@ public class registro extends AppCompatActivity {
         nombreUser = nombre.getText().toString();
         password = pass.getText().toString();
         phone = telefono.getText().toString();
+        userType = String.valueOf(radioButton.getText());
 
         if (TextUtils.isEmpty(usuario)){
             email.setError("Email es requerido");
+            return;
+        }
+        if (userType == ""){
+            Toast.makeText(registro.this , "Elija un tipo de usuario", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(password)){
@@ -88,7 +111,7 @@ public class registro extends AppCompatActivity {
             pass.setError("El telefono debe de tener 10 caracteres");
             return;
         }
-
+//        save on auth
         vLoadBar.setVisibility(View.VISIBLE);
 
         fAuth.createUserWithEmailAndPassword(usuario,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -96,12 +119,26 @@ public class registro extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(registro.this , "Usuario creado", Toast.LENGTH_SHORT).show();
+                    //        save on live db
+                    if (task.getResult().getUser().getUid() != null) {
+                        userId[0] = task.getResult().getUser().getUid();
+                    }
+                    HashMap<String, String> userMap = new HashMap<>();
+                    userMap.put("name",nombreUser);
+                    userMap.put("email",usuario);
+                    userMap.put("phone", phone);
+                    userMap.put("type", userType);
+                    if (userType.equals("Usuario")) {
+                        userMap.put("arrived", "true");
+                    }
+                    root.child(userId[0]).setValue(userMap);
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 } else {
                     Toast.makeText(registro.this , "Ocurrio un error!! - " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
 //        MediaType MEDIA_TYPE = MediaType.parse("application/json");
 //        String url = "http://tslserver.ddns.net:5959/api/customer";
 //

@@ -20,8 +20,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), " Bienvenido ", Toast.LENGTH_LONG).show();
-                Intent Intent = new Intent(MainActivity.this, inicio.class);
-                startActivity(Intent);
+//                Intent Intent = new Intent(MainActivity.this, inicio.class);
+//                startActivity(Intent);
+                startActivity(new Intent(getApplicationContext(), inicio.class));
             }
         });
     }
