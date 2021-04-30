@@ -11,6 +11,7 @@ import okhttp3.*;
 import okhttp3.OkHttpClient;
 import java.io.*;
 import java.util.HashMap;
+import java.util.Objects;
 
 import android.view.View;
 import android.widget.EditText;
@@ -111,16 +112,17 @@ public class inicio extends AppCompatActivity {
                             if (userType.equals("Admin")) {
                                 startActivity(new Intent(getApplicationContext(), menuagente.class));
                             } else {
+                                Log.d(TAG, "ENTRO AL ELSE Y TODO VALE MADRE");
                                 startActivity(new Intent(getApplicationContext(), estaciones.class));
                             }
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                             Log.d(TAG, "onCancelled: "+ error);
                         }
                     });
                 } else {
+                    Log.d(TAG, "anotheronCancelled: "+ task.getException().getMessage());
                     progressBar.setVisibility(View.INVISIBLE);
                     Toast.makeText(inicio.this , "Ocurrio un error!! - " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
