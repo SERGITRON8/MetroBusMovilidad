@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Authenticator;
 import okhttp3.Call;
@@ -43,9 +44,9 @@ import okhttp3.Response;
 
 public class estaciones extends AppCompatActivity implements View.OnClickListener {
 
-    private FirebaseDatabase Db = FirebaseDatabase.getInstance();
+    private final FirebaseDatabase Db = FirebaseDatabase.getInstance();
     private FirebaseAuth fAuth;
-    private DatabaseReference requestCollection = Db.getReference().child("Requests").push();
+    private final DatabaseReference requestCollection = Db.getReference().child("Requests").push();
     private DatabaseReference usersCollection = Db.getReference().child("Users");
     private Spinner spinner1, spinner2, spinner3, spinner4;
     Button btnSolicitar, btnLogout;
@@ -62,7 +63,8 @@ public class estaciones extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estaciones);
 
-        String authUser = fAuth.getInstance().getCurrentUser().getUid();
+        String authUser;
+        authUser = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         usersCollection = usersCollection.child(authUser);
         userStatus = findViewById(R.id.userStatus);
 
@@ -70,6 +72,7 @@ public class estaciones extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Model_usuario schema_user = snapshot.getValue(Model_usuario.class);
+                assert schema_user != null;
                 String arrived = schema_user.getArrived();
 
                 if (arrived.equals("true")) {
@@ -94,7 +97,7 @@ public class estaciones extends AppCompatActivity implements View.OnClickListene
             }
         });
 
-        btnSolicitar = (Button) findViewById(R.id.btn_apoyo);
+        btnSolicitar = findViewById(R.id.btn_apoyo);
         btnSolicitar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +119,7 @@ public class estaciones extends AppCompatActivity implements View.OnClickListene
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fAuth.getInstance().signOut();
+                FirebaseAuth.getInstance().signOut();
                 Toast.makeText(estaciones.this , "Session Terminada.", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
@@ -132,19 +135,19 @@ public class estaciones extends AppCompatActivity implements View.OnClickListene
         for (int i = 0; i < linea1.length; i++) {
             ModeloEstacion estacion = new ModeloEstacion();
             estacion.id = i + 1;
-            estacion.nombreEstacion = linea1[i-1];
+            estacion.nombreEstacion = linea1[i];
             listaLinea1.add((estacion));
         }
 
         for (int i = 0; i < linea2.length; i++) {
             ModeloEstacion estacion = new ModeloEstacion();
             estacion.id = i + 1;
-            estacion.nombreEstacion = linea2[i-1];
+            estacion.nombreEstacion = linea2[i];
             listaLinea2.add((estacion));
         }
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        spinner1 = (Spinner) findViewById(R.id.spr_ubilinea1);
+        spinner1 = findViewById(R.id.spr_ubilinea1);
         ArrayAdapter<ModeloEstacion> adapter1 = new ArrayAdapter<ModeloEstacion>(this, android.R.layout.simple_spinner_item, listaLinea1);
         spinner1.setAdapter(adapter1);
         spinner1.setSelection(adapter1.NO_SELECTION, true); //Add this line before setting listener
@@ -167,7 +170,7 @@ public class estaciones extends AppCompatActivity implements View.OnClickListene
         });
 
 
-        spinner3 = (Spinner) findViewById(R.id.spr_deslinea1);
+        spinner3 = findViewById(R.id.spr_deslinea1);
         ArrayAdapter<ModeloEstacion> adapter3 = new ArrayAdapter<ModeloEstacion>(this, android.R.layout.simple_spinner_item, listaLinea1);
         spinner3.setAdapter(adapter3);
         spinner3.setSelection(adapter3.NO_SELECTION, true); //Add this line before setting listener
@@ -187,7 +190,7 @@ public class estaciones extends AppCompatActivity implements View.OnClickListene
         });
 
 
-        spinner2 = (Spinner) findViewById(R.id.spr_ubilinea2);
+        spinner2 = findViewById(R.id.spr_ubilinea2);
         ArrayAdapter<ModeloEstacion> adapter2 = new ArrayAdapter<ModeloEstacion>(this, android.R.layout.simple_spinner_item, listaLinea2);
         spinner2.setAdapter(adapter2);
         spinner2.setSelection(adapter2.NO_SELECTION, true); //Add this line before setting listener
@@ -207,7 +210,7 @@ public class estaciones extends AppCompatActivity implements View.OnClickListene
         });
 
 
-        spinner4 = (Spinner) findViewById(R.id.spr_deslinea2);
+        spinner4 = findViewById(R.id.spr_deslinea2);
         ArrayAdapter<ModeloEstacion> adapter4 = new ArrayAdapter<ModeloEstacion>(this, android.R.layout.simple_spinner_item, listaLinea2);
         spinner4.setAdapter(adapter4);
         spinner4.setSelection(adapter4.NO_SELECTION, true); //Add this line before setting listener
@@ -250,7 +253,7 @@ public class estaciones extends AppCompatActivity implements View.OnClickListene
             case R.id.btn_ubilinea2:
                 if (spinner2.getVisibility() == View.GONE) {
                     spinner2.setVisibility(View.VISIBLE);
-                    spinner1.setVisibility(view.GONE);
+                    spinner1.setVisibility(View.GONE);
                 } else {
                     spinner2.setVisibility(View.GONE);
                 }
@@ -268,7 +271,7 @@ public class estaciones extends AppCompatActivity implements View.OnClickListene
             case R.id.btn_deslinea2:
                 if (spinner4.getVisibility() == View.GONE) {
                     spinner4.setVisibility(View.VISIBLE);
-                    spinner3.setVisibility(view.GONE);
+                    spinner3.setVisibility(View.GONE);
                 } else {
                     spinner4.setVisibility(View.GONE);
                 }
@@ -287,8 +290,9 @@ public class estaciones extends AppCompatActivity implements View.OnClickListene
     }
 
     public void postRequest() throws IOException {
-        String authUser = fAuth.getInstance().getCurrentUser().getUid();
-        usersCollection = usersCollection.child(authUser);
+        final String[] user_name = new String[1];
+        final String[] user_phone = new String[1];
+        String authUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         userStatus = findViewById(R.id.userStatus);
         HashMap<String, String> requestMap = new HashMap<>();
@@ -297,8 +301,39 @@ public class estaciones extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Model_usuario schema_user = snapshot.getValue(Model_usuario.class);
-                requestMap.put("user_name", schema_user.getName());
-                requestMap.put("user_phone", schema_user.getPhone());
+
+                requestMap.put("id_origin_line", String.valueOf(IdLineaArribo));
+                requestMap.put("id_origin_estacion", String.valueOf(IdEstacionArribo));
+                requestMap.put("origin_line", String.valueOf(lineaOrigen));
+                requestMap.put("origin_estacion", String.valueOf(estacionOrigen));
+                requestMap.put("id_destiny_line", String.valueOf(IdLineaDescenso));
+                requestMap.put("id_destiny_estacion", String.valueOf(IdEstacionDescenso));
+                requestMap.put("destiny_line", String.valueOf(lineaDestino));
+                requestMap.put("destiny_estacion", String.valueOf(estacionDestino));
+                requestMap.put("user_name", String.valueOf(schema_user.getName()));
+                requestMap.put("user_phone", String.valueOf(schema_user.getPhone()));
+
+                requestCollection.setValue(requestMap, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                        if (error == null){
+                            HashMap<String, Object> userMap = new HashMap<>();
+                            userMap.put("arrived", "false");
+                            usersCollection.updateChildren(userMap);
+
+                            userStatus.setVisibility(View.VISIBLE);
+                            btnSolicitar.setClickable(false);
+                            spinner1.setClickable(false);
+                            spinner2.setClickable(false);
+                            spinner3.setClickable(false);
+                            spinner4.setClickable(false);
+
+                            Toast.makeText(estaciones.this , "Solicitud Recibida!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(estaciones.this , "Ocurrio un error. " + error, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
 
             @Override
@@ -306,38 +341,6 @@ public class estaciones extends AppCompatActivity implements View.OnClickListene
                 Log.d(TAG, "onCancelled User Collection: "+ error);
             }
         });
-
-        requestMap.put("id_origin_line", String.valueOf(IdLineaArribo));
-        requestMap.put("id_origin_estacion", String.valueOf(IdEstacionArribo));
-        requestMap.put("origin_line", String.valueOf(lineaOrigen));
-        requestMap.put("origin_estacion", String.valueOf(estacionOrigen));
-        requestMap.put("id_destiny_line", String.valueOf(IdLineaDescenso));
-        requestMap.put("id_destiny_estacion", String.valueOf(IdEstacionDescenso));
-        requestMap.put("destiny_line", String.valueOf(lineaDestino));
-        requestMap.put("destiny_estacion", String.valueOf(estacionDestino));
-
-        requestCollection.setValue(requestMap, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                if (error == null){
-                    HashMap<String, Object> userMap = new HashMap<>();
-                    userMap.put("arrived", "false");
-                    usersCollection.updateChildren(userMap);
-
-                    userStatus.setVisibility(View.VISIBLE);
-                    btnSolicitar.setClickable(false);
-                    spinner1.setClickable(false);
-                    spinner2.setClickable(false);
-                    spinner3.setClickable(false);
-                    spinner4.setClickable(false);
-
-                    Toast.makeText(estaciones.this , "Solicitud Recibida!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(estaciones.this , "Ocurrio un error. " + error, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
 
 //        MediaType MEDIA_TYPE = MediaType.parse("application/json");
 //        String url = "http://tslserver.ddns.net:5959/api/estacion";

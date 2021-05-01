@@ -49,7 +49,7 @@ public class solicitudes extends AppCompatActivity {
     private DatabaseReference solicitudesReference = FirebaseDatabase.getInstance().getReference().child("Requests");
     static final String SCAN = "com.google.zxing.client.android.SCAN";
     Button btnRefresh;
-
+    private static final String TAG = "Response";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class solicitudes extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.d(TAG, "onCancelled: "+ error);
             }
         });
 

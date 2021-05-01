@@ -44,15 +44,15 @@ public class Model_solicitud {
     }
 
     public String getUser_phone() {
-        return user_phone;
+        return String.valueOf(user_phone);
     }
 
     public String getId_origin_line() {
-        return id_origin_line;
+        return String.valueOf(id_origin_line);
     }
 
     public String getId_origin_estacion() {
-        return id_origin_estacion;
+        return String.valueOf(id_origin_estacion);
     }
 
     public String getOrigin_line() {
@@ -64,11 +64,11 @@ public class Model_solicitud {
     }
 
     public String getId_destiny_line() {
-        return id_destiny_line;
+        return String.valueOf(id_destiny_line);
     }
 
     public String getId_destiny_estacion() {
-        return id_destiny_estacion;
+        return String.valueOf(id_destiny_estacion);
     }
 
     public String getDestiny_line() {
