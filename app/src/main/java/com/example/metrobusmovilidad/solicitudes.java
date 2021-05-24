@@ -50,16 +50,18 @@ public class solicitudes extends AppCompatActivity {
     static final String SCAN = "com.google.zxing.client.android.SCAN";
     Button btnRefresh;
     private static final String TAG = "Response";
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solicitudes);
 
-        lSolicitudes = findViewById(R.id.lvSolicitudes);
+        lSolicitudes = (ListView) findViewById(R.id.lvSolicitudes);
+
 
         alSolicitudes = new ArrayList<>();
-        ArrayAdapter adapter= new ArrayAdapter<String>(this, R.layout.list_item, alSolicitudes);
+        ArrayAdapter<String> adapter= new ArrayAdapter<String>(this, R.layout.list_item, alSolicitudes);
         lSolicitudes.setAdapter(adapter);
 
         solicitudesReference.addValueEventListener(new ValueEventListener() {
@@ -67,9 +69,12 @@ public class solicitudes extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 alSolicitudes.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
                     Model_solicitud schema = snapshot.getValue(Model_solicitud.class);
-                    String request = "USUARIO "+ schema.getUser_name() +"/n Direccion a " + schema.getDestination() + "/n Abordo en " +schema.getOrigin() + "/n Contacto emergencia: " +schema.getUser_phone();
+                    String request = "USUARIO "+ schema.getUser_name() +"\n Direccion a " + schema.getDestination() + "\n Abordo en " +schema.getOrigin() + "\n Contacto emergencia: " +schema.getUser_phone();
+                    System.out.println(request);
                     alSolicitudes.add(request);
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -217,7 +222,7 @@ public class solicitudes extends AppCompatActivity {
                 listaModeloSolicitudes.add((modelo));
             }
 
-            Log.d("termino","mensae");
+            Log.d("termino","mensaje");
 
         }catch (JSONException err){
             Log.d("Error", err.toString());
